@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthEntity } from './auth/auth.entity';
+import { MetadataEntity } from './metadata/metadata.entity';
+import { MetadataModule } from './metadata/metadata.module';
 
 @Module({
   imports: [
@@ -12,10 +14,11 @@ import { AuthEntity } from './auth/auth.entity';
       username: 'root',
       password: '0000',
       database: 'graduation_project',
-      entities: [AuthEntity],
+      entities: [AuthEntity, MetadataEntity],
       synchronize: true, // false가 안전함
     }),
     AuthModule,
+    MetadataModule,
   ],
   controllers: [],
   providers: [],

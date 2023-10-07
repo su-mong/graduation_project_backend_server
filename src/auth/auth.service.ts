@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { AuthCreatedDto } from './dto/auth-created.dto';
 import { AuthCorrectDto } from './dto/auth-correct.dto';
 import { AuthNumberNotFoundException } from './auth.exception';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthRepository } from './auth.repository';
 
 @Injectable()
