@@ -1,10 +1,10 @@
-import { PickType } from '@nestjs/swagger';
-import { AuthEntity } from './auth.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class AuthDto extends PickType(AuthEntity, ['phone', 'code'] as const) {
-  constructor(phone: string, code: string) {
-    super();
-    this.phone = phone;
-    this.code = code;
+export class AuthCreatedDto {
+  @ApiProperty({ type: Boolean })
+  isCreated: boolean;
+
+  constructor(isCreated: boolean) {
+    this.isCreated = isCreated;
   }
 }

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { VersionRepository } from './repositories/version.repository';
-import { VersionController } from './version.controller';
-import { VersionService } from './version.service';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { AuthRepository } from './auth.repository';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([VersionRepository])],
-    controllers: [VersionController],
-    providers: [VersionService],
-    exports: [VersionService],
+  // imports: [TypeOrmModule.forFeature([AuthRepository])],
+  controllers: [AuthController],
+  providers: [AuthService, AuthRepository],
+  exports: [AuthService],
 })
-export class VersionModule {}
+export class AuthModule {}
