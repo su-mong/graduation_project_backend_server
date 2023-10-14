@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MetadataService } from './metadata.service';
-import { MetadataEntity } from './metadata.entity';
+import { MetadataDto } from './metadata.dto';
 
 @Controller('metadata')
 @ApiTags('Metadata API')
@@ -10,8 +10,8 @@ export class MetadataController {
 
   @Get('/')
   @ApiOperation({ summary: '메타데이터 리스트 얻기' })
-  @ApiCreatedResponse({ type: MetadataEntity, isArray: true })
-  async getAllMetadata(): Promise<MetadataEntity[]> {
+  @ApiCreatedResponse({ type: MetadataDto })
+  async getAllMetadata(): Promise<MetadataDto> {
     return this.metadataService.getAllMetadata();
   }
 }
