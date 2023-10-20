@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as crypto from 'crypto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { AuthCreatedDto } from './dto/auth-created.dto';
 import { AuthCorrectDto } from './dto/auth-correct.dto';
 import { AuthNumberNotFoundException } from './auth.exception';
@@ -9,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly configService: ConfigService,
     private readonly authRepository: AuthRepository,
@@ -16,6 +18,8 @@ export class AuthService {
 
   // 인증번호 생성하고 DB에 추가하기
   async makeNewAuthNumber(phone: string): Promise<AuthCreatedDto> {
+    this.logger.debug('🚨 start makeNewAuthNumber()');
+
     // 인증번호 랜덤 생성
     const firstNumber = Math.floor(Math.random() * 10);
     const secondNumber = Math.floor(Math.random() * 10);
@@ -29,6 +33,7 @@ export class AuthService {
     );
 
     if (result) {
+      this.logger.debug(`🚨 CreateNewAuthNumber succeed : ${result}`);
       try {
         const timestamp = Date.now().toString();
         const urlSuffix =
@@ -61,6 +66,9 @@ export class AuthService {
             },
           },
         );
+        this.logger.debug(
+          `🚨 send SMS(${phone} : ${authNumber}) RESULT : ${response.data.statusName}`,
+        );
 
         if (response.data.statusName == 'success') {
           return new AuthCreatedDto(true);
@@ -69,9 +77,11 @@ export class AuthService {
         }
         // Handle the response
       } catch (error) {
+        this.logger.debug(`🚨 ERROR : ${error}`);
         return new AuthCreatedDto(false);
       }
     } else {
+      this.logger.debug(`🚨 CreateNewAuthNumber failed : ${result}`);
       return new AuthCreatedDto(false);
     }
   }
