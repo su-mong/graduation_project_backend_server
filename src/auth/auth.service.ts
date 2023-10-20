@@ -91,7 +91,9 @@ export class AuthService {
     phone: string,
     code: string,
   ): Promise<AuthCorrectDto> {
+    this.logger.debug('🏀 start checkAuthNumberCorrect()');
     const authNumberPhone = await this.authRepository.findEntityByPhone(phone);
+    this.logger.debug(`🏀 find authNumberPhone : ${authNumberPhone}`);
 
     if (!authNumberPhone) {
       throw new AuthNumberNotFoundException();
